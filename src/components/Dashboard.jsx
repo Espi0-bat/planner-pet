@@ -65,12 +65,26 @@ export default function Dashboard({ userData, token }) {
   const [panicTab, setPanicTab] = useState(0)
   const [isDaytime, setIsDaytime] = useState(true)
   const [linkCopied, setLinkCopied] = useState(false)
+  const [videoCanPlay, setVideoCanPlay] = useState(false)
 
   useEffect(() => {
     const hour = new Date().getHours()
-    // Considera dia entre 06:00 e 18:59
     setIsDaytime(hour >= 6 && hour < 19)
   }, [])
+
+  useEffect(() => {
+    if (!panicOpen) return
+    const v = document.createElement('video')
+    v.src = asset('/puppy-panic-bite.mp4')
+    v.preload = 'auto'
+    v.muted = true
+    v.load()
+    return () => { v.src = '' }
+  }, [panicOpen])
+
+  useEffect(() => {
+    setVideoCanPlay(false)
+  }, [panicTab])
 
   const { blocks, stats } = generateSchedule(
     userData?.wakeTime || '07:00',
@@ -109,7 +123,7 @@ export default function Dashboard({ userData, token }) {
   }
 
   function preloadPanicImages() {
-    ['/puppy-panic-pee.webp', '/puppy-panic-cry.webp'].forEach(src => {
+    ['/puppy-panic-pee.webp', '/puppy-panic-cry.webp', '/puppy-panic-bite.webp'].forEach(src => {
       const img = new Image()
       img.src = asset(src)
     })
@@ -135,7 +149,7 @@ export default function Dashboard({ userData, token }) {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-28 max-w-md mx-auto">
+    <div className="min-h-screen bg-[#FAF8F5] pb-28 max-w-md mx-auto">
 
       {/* Cabeçalho exclusivo para impressão */}
       <div className="hidden print:block px-5 pt-8 pb-5 border-b border-slate-200 mb-2">
@@ -157,21 +171,33 @@ export default function Dashboard({ userData, token }) {
         <div className="absolute inset-0 z-0 bg-slate-900">
           <AnimatePresence mode="wait">
             {currentMedia.type === 'video' ? (
-              <motion.video
+              <motion.div
                 key={currentMedia.src}
-                src={currentMedia.src}
-                autoPlay
-                loop
-                muted
-                playsInline
-                preload="none"
-                poster={asset('/puppy-panic-bite.webp')}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.4 }}
-                className="absolute inset-0 w-full h-full object-cover object-center"
-              />
+                className="absolute inset-0"
+              >
+                <img
+                  src={asset('/puppy-panic-bite.webp')}
+                  alt=""
+                  aria-hidden="true"
+                  className="absolute inset-0 w-full h-full object-cover object-center"
+                />
+                <motion.video
+                  src={currentMedia.src}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  preload="none"
+                  onCanPlay={() => setVideoCanPlay(true)}
+                  animate={{ opacity: videoCanPlay ? 1 : 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="absolute inset-0 w-full h-full object-cover object-center"
+                />
+              </motion.div>
             ) : (
               <motion.img
                 key={currentMedia.src}
@@ -414,7 +440,7 @@ export default function Dashboard({ userData, token }) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              onClick={() => setPanicOpen(false)}
+              onClick={() => { setPanicOpen(false); setPanicTab(0) }}
               className="fixed inset-0 bg-slate-900/50 z-40"
             />
             <motion.div
@@ -426,7 +452,7 @@ export default function Dashboard({ userData, token }) {
             >
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-bold text-slate-900">Modo Pânico</h3>
-                <button onClick={() => setPanicOpen(false)} className="p-2 rounded-full hover:bg-slate-100 cursor-pointer">
+                <button onClick={() => { setPanicOpen(false); setPanicTab(0) }} className="p-2 rounded-full hover:bg-slate-100 cursor-pointer">
                   <svg className="w-5 h-5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                   </svg>

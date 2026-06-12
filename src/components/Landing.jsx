@@ -3,7 +3,7 @@ import { asset } from '../utils/asset'
 
 export default function Landing({ onStart }) {
   return (
-    <div className="min-h-screen flex flex-col bg-slate-100 max-w-md mx-auto relative overflow-hidden">
+    <div className="min-h-screen flex flex-col bg-[#F5F2EE] max-w-md mx-auto relative overflow-hidden">
       {/* Background decorations */}
       <div className="absolute top-[-10%] left-[-20%] w-96 h-96 bg-orange-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
       <div className="absolute top-[20%] right-[-20%] w-96 h-96 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob" style={{ animationDelay: '2000ms' }}></div>
