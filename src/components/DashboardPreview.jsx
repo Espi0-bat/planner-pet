@@ -1,4 +1,5 @@
-// Versão simplificada do Dashboard — usada apenas como preview borrado no Paywall
+import { asset } from '../utils/asset'
+
 export default function DashboardPreview({ userData, stats }) {
   return (
     <div className="min-h-screen bg-slate-50 px-5 pt-4 pb-24 max-w-md mx-auto">
@@ -6,7 +7,7 @@ export default function DashboardPreview({ userData, stats }) {
       <div className="relative pt-8 pb-6 px-4 rounded-[2rem] overflow-hidden shadow-sm mb-6 mt-4">
         <div className="absolute inset-0 z-0">
           <img 
-            src="/puppy-success.png" 
+            src={asset('/puppy-success.png')} 
             alt="Filhote" 
             className="w-full h-full object-cover object-center"
           />

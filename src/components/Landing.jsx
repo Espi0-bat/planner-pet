@@ -1,4 +1,5 @@
 import { motion } from 'motion/react'
+import { asset } from '../utils/asset'
 
 export default function Landing({ onStart }) {
   return (
@@ -18,7 +19,7 @@ export default function Landing({ onStart }) {
         {/* We use an image tag here */}
         <div className="absolute inset-0 w-full h-full z-0 overflow-hidden shadow-sm">
            <img
-              src="/puppy-hero.png"
+              src={asset('/puppy-hero.png')}
               alt="Cachorrinho fofo que fez bagunça"
               fetchpriority="high"
               loading="eager"

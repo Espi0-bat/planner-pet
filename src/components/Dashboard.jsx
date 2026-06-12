@@ -3,6 +3,7 @@ import { motion, AnimatePresence, useReducedMotion } from 'motion/react'
 import { generateSchedule } from '../utils/generateSchedule'
 import PwaPrompt from './PwaPrompt'
 import { getMagicLink } from '../utils/token'
+import { asset } from '../utils/asset'
 
 const ICON_MAP = {
   drop: (
@@ -115,14 +116,14 @@ export default function Dashboard({ userData, token }) {
   // Lógica de mídia dinâmica (imagem ou vídeo)
   let currentMedia = {
     type: 'image',
-    src: isDaytime ? '/puppy-daytime.png' : '/puppy-success.png',
+    src: isDaytime ? asset('/puppy-daytime.png') : asset('/puppy-success.png'),
   }
   let overlayClass = 'from-slate-900/60 via-slate-900/30 to-slate-900/80'
 
   if (panicOpen) {
-    if (panicTab === 0) currentMedia = { type: 'image', src: '/puppy-panic-pee.png' }
-    if (panicTab === 1) currentMedia = { type: 'video', src: '/puppy-panic-bite.mp4' }
-    if (panicTab === 2) currentMedia = { type: 'image', src: '/puppy-panic-cry.png' }
+    if (panicTab === 0) currentMedia = { type: 'image', src: asset('/puppy-panic-pee.png') }
+    if (panicTab === 1) currentMedia = { type: 'video', src: asset('/puppy-panic-bite.mp4') }
+    if (panicTab === 2) currentMedia = { type: 'image', src: asset('/puppy-panic-cry.png') }
     overlayClass = 'from-red-900/80 via-slate-900/50 to-slate-900/95'
   }
 
