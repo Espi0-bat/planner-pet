@@ -19,7 +19,7 @@ export default function Landing({ onStart }) {
         {/* We use an image tag here */}
         <div className="absolute inset-0 w-full h-full z-0 overflow-hidden shadow-sm">
            <img
-              src={asset('/puppy-hero.png')}
+              src={asset('/puppy-hero.webp')}
               alt="Cachorrinho fofo que fez bagunça"
               fetchpriority="high"
               loading="eager"

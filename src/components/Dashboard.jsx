@@ -108,6 +108,13 @@ export default function Dashboard({ userData, token }) {
     document.title = prev
   }
 
+  function preloadPanicImages() {
+    ['/puppy-panic-pee.webp', '/puppy-panic-cry.webp'].forEach(src => {
+      const img = new Image()
+      img.src = asset(src)
+    })
+  }
+
   function toggleTask(blockIdx, taskIdx) {
     const key = `${blockIdx}-${taskIdx}`
     setCheckedTasks(prev => ({ ...prev, [key]: !prev[key] }))
@@ -116,14 +123,14 @@ export default function Dashboard({ userData, token }) {
   // Lógica de mídia dinâmica (imagem ou vídeo)
   let currentMedia = {
     type: 'image',
-    src: isDaytime ? asset('/puppy-daytime.png') : asset('/puppy-success.png'),
+    src: isDaytime ? asset('/puppy-daytime.webp') : asset('/puppy-success.webp'),
   }
   let overlayClass = 'from-slate-900/60 via-slate-900/30 to-slate-900/80'
 
   if (panicOpen) {
-    if (panicTab === 0) currentMedia = { type: 'image', src: asset('/puppy-panic-pee.png') }
+    if (panicTab === 0) currentMedia = { type: 'image', src: asset('/puppy-panic-pee.webp') }
     if (panicTab === 1) currentMedia = { type: 'video', src: asset('/puppy-panic-bite.mp4') }
-    if (panicTab === 2) currentMedia = { type: 'image', src: asset('/puppy-panic-cry.png') }
+    if (panicTab === 2) currentMedia = { type: 'image', src: asset('/puppy-panic-cry.webp') }
     overlayClass = 'from-red-900/80 via-slate-900/50 to-slate-900/95'
   }
 
@@ -158,6 +165,7 @@ export default function Dashboard({ userData, token }) {
                 muted
                 playsInline
                 preload="none"
+                poster={asset('/puppy-panic-bite.webp')}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -343,7 +351,7 @@ export default function Dashboard({ userData, token }) {
             PDF Geladeira
           </button>
           <button
-            onClick={() => { setPanicOpen(true); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+            onClick={() => { setPanicOpen(true); preloadPanicImages(); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
             className="flex items-center justify-center gap-2 bg-red-500 hover:bg-red-600 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 cursor-pointer text-sm"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

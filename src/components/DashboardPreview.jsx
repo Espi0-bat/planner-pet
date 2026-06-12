@@ -7,7 +7,7 @@ export default function DashboardPreview({ userData, stats }) {
       <div className="relative pt-8 pb-6 px-4 rounded-[2rem] overflow-hidden shadow-sm mb-6 mt-4">
         <div className="absolute inset-0 z-0">
           <img 
-            src={asset('/puppy-success.png')} 
+            src={asset('/puppy-success.webp')} 
             alt="Filhote" 
             className="w-full h-full object-cover object-center"
           />
