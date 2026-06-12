@@ -1,30 +1,37 @@
-const STORAGE_PREFIX = 'pp_'
-const CHARS = 'ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789'
+const SESSION_PREFIX = 'pp_session_'
+const TOKEN_PARAM = 'token'
 
 export function generateToken() {
-  return Array.from({ length: 8 }, () => CHARS[Math.floor(Math.random() * CHARS.length)]).join('')
+  return crypto.randomUUID().replace(/-/g, '').slice(0, 16)
 }
 
-export function saveSession(token, userData) {
-  localStorage.setItem(STORAGE_PREFIX + token, JSON.stringify(userData))
+export function saveSession(token, data) {
+  try {
+    localStorage.setItem(SESSION_PREFIX + token, JSON.stringify(data))
+  } catch {}
 }
 
 export function loadSession(token) {
-  const raw = localStorage.getItem(STORAGE_PREFIX + token)
-  return raw ? JSON.parse(raw) : null
-}
-
-export function getMagicLink(token) {
-  const base = `${window.location.origin}${import.meta.env.BASE_URL}`
-  return `${base}?token=${token}`
+  try {
+    const raw = localStorage.getItem(SESSION_PREFIX + token)
+    return raw ? JSON.parse(raw) : null
+  } catch { return null }
 }
 
 export function getTokenFromUrl() {
-  return new URLSearchParams(window.location.search).get('token')
+  const params = new URLSearchParams(window.location.search)
+  return params.get(TOKEN_PARAM) || null
 }
 
 export function setUrlToken(token) {
   const url = new URL(window.location.href)
-  url.searchParams.set('token', token)
+  url.searchParams.set(TOKEN_PARAM, token)
   window.history.replaceState({}, '', url.toString())
+}
+
+export function getMagicLink(token) {
+  if (!token) return window.location.origin
+  const url = new URL(window.location.origin + window.location.pathname)
+  url.searchParams.set(TOKEN_PARAM, token)
+  return url.toString()
 }
