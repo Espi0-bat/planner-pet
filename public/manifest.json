@@ -1,0 +1,18 @@
+{
+  "name": "Planner de Sobrevivência do Filhote",
+  "short_name": "Planner Pet",
+  "description": "Cronograma biológico personalizado para o seu filhote",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#ea580c",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/puppy-hero.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
